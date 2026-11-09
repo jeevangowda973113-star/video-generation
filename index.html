@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090b10" />
+  <title>MotionLab — AI Video Studio</title>
+  <style>
+    :root{color-scheme:dark;--bg:#090b10;--panel:#11151e;--panel2:#171d29;--line:#252d3b;--muted:#8c96a8;--text:#f4f6fb;--accent:#8b7cff;--accent2:#48c6ef;--green:#68d9a5}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 75% -15%,#25204c 0,transparent 38%),var(--bg);color:var(--text);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}
+    button,input,textarea,select{font:inherit}button{cursor:pointer}.app{min-height:100vh;display:grid;grid-template-columns:248px 1fr}
+    aside{border-right:1px solid var(--line);padding:24px 16px;background:#0b0e15;display:flex;flex-direction:column;gap:24px}
+    .brand{display:flex;align-items:center;gap:11px;padding:0 8px;font-size:19px;font-weight:750;letter-spacing:-.5px}.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--accent),#4d9bea);display:grid;place-items:center;font-weight:900;color:white}
+    .new{width:100%;border:1px solid #554b9a;background:#292343;color:#fff;padding:12px;border-radius:11px;text-align:left;font-weight:650}.navlabel{font-size:11px;text-transform:uppercase;letter-spacing:1.3px;color:#687387;padding:0 10px;margin-bottom:-12px}.navitem{display:flex;gap:11px;align-items:center;color:#aeb7c7;padding:10px;border-radius:9px}.navitem.active,.navitem:hover{background:#1a2030;color:#fff}.sidebottom{margin-top:auto;color:#687387;font-size:12px;padding:8px}
+    main{min-width:0;padding:34px clamp(18px,4vw,58px) 60px;max-width:1500px;width:100%;margin:auto}.top{display:flex;justify-content:space-between;align-items:center;gap:20px;margin-bottom:30px}.eyebrow{color:#a99fff;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}.top h1{font-size:clamp(27px,4vw,39px);line-height:1.12;margin:7px 0 8px;letter-spacing:-1.3px}.sub{color:var(--muted);margin:0}.status{border:1px solid #2a5949;color:#8ee3bd;background:#10231d;padding:8px 12px;border-radius:30px;font-size:12px;white-space:nowrap}
+    .workspace{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(300px,.92fr);gap:20px;align-items:start}.panel{background:linear-gradient(180deg,#141a25,#10141d);border:1px solid var(--line);border-radius:17px;padding:21px;box-shadow:0 18px 60px #0002}.panelhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}.panelhead h2{font-size:16px;margin:0}.hint{font-size:12px;color:var(--muted)}
+    .tabs{display:flex;gap:7px;background:#0c1018;padding:5px;border-radius:11px;margin-bottom:20px}.tab{flex:1;border:0;background:transparent;color:#98a3b5;padding:10px 8px;border-radius:8px;font-weight:650}.tab.active{background:#292541;color:#fff;box-shadow:inset 0 0 0 1px #51468c}
+    label{display:block;font-size:12px;color:#b7c0cf;font-weight:650;margin:16px 0 8px}.prompt{width:100%;min-height:142px;resize:vertical;background:#0b1018;border:1px solid #2a3444;border-radius:11px;color:#f5f7fb;padding:14px;outline:none}.prompt:focus,input:focus,select:focus{border-color:#8173ef;box-shadow:0 0 0 3px #8173ef22}.prompt::placeholder{color:#647086}
+    .upload{border:1px dashed #39465b;border-radius:11px;padding:20px;text-align:center;background:#0c111a;color:#aeb8c8}.upload strong{display:block;color:#e6eaf2;margin:7px 0 3px}.upload small{color:#7f8ba0}.upload input{display:none}.upload button{border:1px solid #39465b;background:#171f2d;color:#eaf0fa;border-radius:8px;padding:8px 12px;margin-top:12px}
+    .fields{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field select,.field input{width:100%;background:#0b1018;color:#e9edf5;border:1px solid #2a3444;border-radius:9px;padding:10px;outline:none}.field label{margin-top:15px}
+    .generate{width:100%;border:0;border-radius:11px;padding:14px;margin-top:21px;color:#fff;font-weight:750;background:linear-gradient(100deg,#7869ed,#4d9fe9);box-shadow:0 8px 28px #7668ec33}.generate:hover{filter:brightness(1.08)}.fineprint{font-size:11px;color:#748096;text-align:center;margin:10px 0 0}
+    .preview{min-height:420px;display:flex;flex-direction:column}.screen{flex:1;min-height:320px;border-radius:12px;border:1px solid #283244;background:radial-gradient(ellipse at 50% 42%,#26234b 0,transparent 43%),linear-gradient(145deg,#151b2a,#090c13);display:grid;place-items:center;text-align:center;padding:20px;overflow:hidden}.screen video,.screen img{max-width:100%;max-height:350px;border-radius:8px}.emptyicon{font-size:36px;margin-bottom:10px}.screen h3{margin:0 0 6px;font-size:16px}.screen p{margin:0;color:#8793a8;font-size:13px;max-width:260px}.previewfoot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:14px;color:#8793a8;font-size:12px}.download{border:1px solid #39465b;background:#171f2d;color:#e8edf7;padding:8px 12px;border-radius:8px}.download:disabled{opacity:.4;cursor:not-allowed}
+    .notice{margin-top:20px;border:1px solid #5a4825;background:#241d11;color:#d8c18d;border-radius:12px;padding:13px 15px;font-size:12px}.notice b{color:#f2d99c}.history{margin-top:20px}.historyrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-top:1px solid #252d3b;color:#aeb8c8;font-size:13px}.emptyhistory{color:#69758a;font-size:13px;padding:8px 0}
+    @media(max-width:900px){.app{grid-template-columns:1fr}aside{display:none}main{padding-top:24px}.workspace{grid-template-columns:1fr}.preview{min-height:370px}.screen{min-height:270px}}
+    @media(max-width:480px){main{padding:20px 13px 40px}.panel{padding:15px}.top{align-items:flex-start}.status{font-size:10px;padding:6px 9px}.fields{gap:8px}.field select,.field input{font-size:13px;padding:9px}}
+  </style>
+</head>
+<body>
+<div class="app">
+  <aside>
+    <div class="brand"><div class="logo">M</div> MotionLab</div>
+    <button class="new" id="newProject">＋ &nbsp; New generation</button>
+    <div class="navlabel">Workspace</div>
+    <div class="navitem active">✦ &nbsp; Video Studio</div>
+    <div class="navitem">▧ &nbsp; My generations</div>
+    <div class="navitem">◫ &nbsp; Assets</div>
+    <div class="sidebottom">Early preview · Built to keep costs low</div>
+  </aside>
+  <main>
+    <div class="top">
+      <div><div class="eyebrow">Creative workspace</div><h1>Make something in motion.</h1><p class="sub">Turn an idea or an image into your next video.</p></div>
+      <div class="status">● Cost-safe prototype</div>
+    </div>
+    <div class="workspace">
+      <section class="panel">
+        <div class="panelhead"><h2>Create a video</h2><span class="hint">Studio · 01</span></div>
+        <div class="tabs"><button class="tab active" data-mode="text">✦ Text to video</button><button class="tab" data-mode="image">▧ Image to video</button></div>
+        <label for="prompt">Describe your video</label>
+        <textarea class="prompt" id="prompt" maxlength="1200" placeholder="A cinematic wide shot of a quiet coastal town at sunrise, soft golden light, slow camera movement..."></textarea>
+        <div id="imageUpload" class="upload" hidden>
+          <div style="font-size:25px">▧</div><strong>Upload a starting image</strong><small>PNG, JPG or WebP · Keep it under 10 MB</small><br>
+          <button type="button" id="chooseImage">Choose image</button><input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp">
+          <div id="fileName" class="hint" style="margin-top:8px"></div>
+        </div>
+        <div class="fields">
+          <div class="field"><label for="ratio">Aspect ratio</label><select id="ratio"><option value="16:9">Landscape · 16:9</option><option value="9:16">Portrait · 9:16</option><option value="1:1">Square · 1:1</option></select></div>
+          <div class="field"><label for="duration">Duration</label><select id="duration"><option value="5">5 seconds</option><option value="8">8 seconds</option><option value="10">10 seconds</option></select></div>
+          <div class="field"><label for="quality">Quality target</label><select id="quality"><option>Standard preview</option><option>High quality (planned)</option></select></div>
+          <div class="field"><label for="motion">Camera motion</label><select id="motion"><option>Auto</option><option>Static</option><option>Slow pan</option><option>Zoom in</option><option>Tracking shot</option></select></div>
+        </div>
+        <button class="generate" id="generate">✦ &nbsp; Prepare generation</button>
+        <p class="fineprint">No GPU is started and no paid API is called by this prototype.</p>
+      </section>
+      <section class="panel preview">
+        <div class="panelhead"><h2>Preview</h2><span class="hint" id="previewStatus">Waiting for input</span></div>
+        <div class="screen" id="screen"><div><div class="emptyicon">▶</div><h3>Your video will appear here</h3><p>Write a prompt or upload an image to prepare your first generation.</p></div></div>
+        <div class="previewfoot"><span id="previewMeta">MP4 export · Coming soon</span><button class="download" id="download" disabled>↓ Download</button></div>
+      </section>
+    </div>
+    <div class="notice"><b>Prototype notice:</b> This first version is the working studio interface only. Actual AI video generation is not connected yet. We will add an open-source model after checking hardware requirements and running costs. This avoids surprise GPU bills.</div>
+    <section class="panel history">
+      <div class="panelhead"><h2>Recent activity</h2><span class="hint">This browser session</span></div>
+      <div id="history"><div class="emptyhistory">Your prepared generations will show up here.</div></div>
+    </section>
+  </main>
+</div>
+<script>
+  const tabs=[...document.querySelectorAll('.tab')], upload=document.getElementById('imageUpload'), fileInput=document.getElementById('imageFile');
+  let mode='text', imageUrl='', historyItems=[];
+  tabs.forEach(t=>t.addEventListener('click',()=>{mode=t.dataset.mode;tabs.forEach(x=>x.classList.toggle('active',x===t));upload.hidden=mode!=='image';}));
+  document.getElementById('chooseImage').addEventListener('click',()=>fileInput.click());
+  fileInput.addEventListener('change',()=>{
+    const f=fileInput.files[0]; if(!f)return;
+    if(f.size>10*1024*1024){alert('Please choose an image smaller than 10 MB.');fileInput.value='';return;}
+    if(imageUrl)URL.revokeObjectURL(imageUrl); imageUrl=URL.createObjectURL(f);
+    document.getElementById('fileName').textContent=f.name;
+  });
+  function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+  document.getElementById('generate').addEventListener('click',()=>{
+    const prompt=document.getElementById('prompt').value.trim();
+    if(!prompt){alert('Please describe the video you want to create.');return;}
+    if(mode==='image'&&!fileInput.files[0]){alert('Please upload a starting image.');return;}
+    const item={prompt,mode,ratio:document.getElementById('ratio').value,duration:document.getElementById('duration').value,time:new Date().toLocaleTimeString()};
+    historyItems.unshift(item);historyItems=historyItems.slice(0,5);
+    document.getElementById('previewStatus').textContent='Prepared · Not generated';
+    document.getElementById('previewMeta').textContent=item.ratio+' · '+item.duration+' sec · Request preview';
+    document.getElementById('screen').innerHTML=mode==='image'&&imageUrl
+      ? '<div><img src="'+imageUrl+'" alt="Uploaded source image"><h3 style="margin-top:12px">Source image ready</h3><p>AI animation will be available after model integration.</p></div>'
+      : '<div><div class="emptyicon">✦</div><h3>Prompt ready</h3><p>'+escapeHtml(prompt)+'</p><p style="margin-top:10px;color:#a99fff">Waiting for video model integration</p></div>';
+    document.getElementById('history').innerHTML=historyItems.map((x,i)=>'<div class="historyrow"><span>'+escapeHtml(x.prompt.slice(0,66))+(x.prompt.length>66?'…':'')+'</span><span>'+x.mode+' · '+x.duration+'s</span></div>').join('');
+  });
+  document.getElementById('newProject').addEventListener('click',()=>{document.getElementById('prompt').value='';fileInput.value='';document.getElementById('fileName').textContent='';document.getElementById('previewStatus').textContent='Waiting for input';document.getElementById('previewMeta').textContent='MP4 export · Coming soon';document.getElementById('screen').innerHTML='<div><div class="emptyicon">▶</div><h3>Your video will appear here</h3><p>Write a prompt or upload an image to prepare your first generation.</p></div>';});
+</script>
+</body>
+</html>
